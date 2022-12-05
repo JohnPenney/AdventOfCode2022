@@ -6,69 +6,44 @@ namespace Day5
     public class Day5UnitTest
     {
         [TestMethod]
-        public void EnclosingRangeCountExample()
+        public void Part1Example()
         {
             var craneInstructions = ExampleCraneInstructions();
 
-            var result = CratePredictor.FinalSetup(craneInstructions);
+            var result = CratePredictor.CraneMover9000(craneInstructions);
 
             result.Should().Be("CMZ");
         }
-        /*
-        [TestMethod]
-        public void EnclosingRangeCountSolution()
-        {
-            var sectionAssignments = File.ReadAllLines("input.txt");
-
-            var result = CratePredictor.EnclosingRangeCount(sectionAssignments);
-
-            result.Should().Be(513);
-        }
 
         [TestMethod]
-        public void OverlappingRangeCountExample()
+        public void Part1Solution()
         {
-            var sectionAssignments = ExampleSectionAssignments();
+            var craneInstructions = File.ReadAllLines("input.txt");
 
-            var result = CratePredictor.OverlappingRangeCount(sectionAssignments);
+            var result = CratePredictor.CraneMover9000(craneInstructions);
 
-            result.Should().Be(4);
-        }
-
-        [DataRow("1-5,6-10", false)]
-        [DataRow("6-10,1-5", false)]
-
-        [DataRow("2-5,5-7", true)]
-        [DataRow("5-7,2-5", true)]
-
-        [DataRow("40-60,50-70", true)]
-        [DataRow("50-70,40-60", true)]
-
-        [DataRow("1-10,4-6", true)]
-        [DataRow("4-6,1-10", true)]
-
-        [DataRow("1-1,1-1", true)]
-        [DataTestMethod]
-        public void OverlappingRangeCountOverlapTypesExample(string sectionAssignment, bool isOverlap)
-        {
-            var sectionAssignments = new[] { sectionAssignment };
-
-            var result = CratePredictor.OverlappingRangeCount(sectionAssignments);
-
-            var expectedResult = isOverlap ? 1 : 0;
-            result.Should().Be(expectedResult);
+            result.Should().Be("MQSHJMWNH");
         }
 
         [TestMethod]
-        public void OverlappingRangeCountSolution()
+        public void Part2Example()
         {
-            var sectionAssignments = File.ReadAllLines("input.txt");
+            var craneInstructions = ExampleCraneInstructions();
 
-            var result = CratePredictor.OverlappingRangeCount(sectionAssignments);
+            var result = CratePredictor.CraneMover9001(craneInstructions);
 
-            result.Should().Be(878);
+            result.Should().Be("MCD");
         }
-        */
+
+        [TestMethod]
+        public void Part2Solution()
+        {
+            var craneInstructions = File.ReadAllLines("input.txt");
+
+            var result = CratePredictor.CraneMover9001(craneInstructions);
+
+            result.Should().Be("LLWJRBHVZ");
+        }
 
         private string[] ExampleCraneInstructions()
         {
