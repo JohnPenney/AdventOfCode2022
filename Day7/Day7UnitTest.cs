@@ -1,0 +1,85 @@
+using FluentAssertions;
+
+namespace Day7
+{
+    [TestClass]
+    public class Day7UnitTest
+    {
+        [TestMethod]
+        public void Part1Example()
+        {
+            var buffer = ExampleTerminalOutput();
+
+            var filesystem = FilesystemAnalyser.CreateFilesystem(buffer);
+            FilesystemAnalyser.SetFolderSizes(filesystem);
+            var result = FilesystemAnalyser.CalculateTotalSize(filesystem, maxDirectorySize: 100000);
+
+            result.Should().Be(95437);
+        }
+
+        [TestMethod]
+        public void Part1Solution()
+        {
+            var buffer = File.ReadAllLines("input.txt");
+
+            var filesystem = FilesystemAnalyser.CreateFilesystem(buffer);
+            FilesystemAnalyser.SetFolderSizes(filesystem);
+            var result = FilesystemAnalyser.CalculateTotalSize(filesystem, maxDirectorySize: 100000);
+
+            result.Should().Be(1491614);
+        }
+
+        /*
+        [DataRow("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 19)]
+        [DataRow("bvwbjplbgvbhsrlpgdmjqwftvncz", 23)]
+        [DataRow("nppdvjthqldpwncqszvftbrmjlhg", 23)]
+        [DataRow("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 29)]
+        [DataRow("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 26)]
+        [DataTestMethod]
+        public void Part2Example(string buffer, int expectedEndOfStartPacketMarker)
+        {
+            var result = MessageAnalyser.FindEndOfMessageMarker(buffer);
+
+            result.Should().Be(expectedEndOfStartPacketMarker);
+        }
+
+        [TestMethod]
+        public void Part2Solution()
+        {
+            var buffer = File.ReadAllLines("input.txt");
+            if (buffer.Length != 1) throw new NotSupportedException();
+
+            var result = MessageAnalyser.FindEndOfMessageMarker(buffer[0]);
+
+            result.Should().Be(2625);
+        }
+        */
+        private string[] ExampleTerminalOutput()
+        {
+            var example = @"$ cd /
+$ ls
+dir a
+14848514 b.txt
+8504156 c.dat
+dir d
+$ cd a
+$ ls
+dir e
+29116 f
+2557 g
+62596 h.lst
+$ cd e
+$ ls
+584 i
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+4060174 j
+8033020 d.log
+5626152 d.ext
+7214296 k";
+            return example.Split(Environment.NewLine);
+        }
+    }
+}
