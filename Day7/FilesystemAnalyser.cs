@@ -45,7 +45,7 @@ namespace Day7
 
             public override string? ToString()
             {
-                return $"{Name} Children.Count={Children.Count} Parent={Parent?.Name} Size={Size}";
+                return $"{(IsDirectory ? "D" : "F")}-\"{Name}\": Children.Count={Children.Count} Parent={Parent?.Name} Size={Size}";
             }
         }
 
@@ -117,9 +117,22 @@ namespace Day7
             return result;
         }
 
-        public static void CalculateTotalSize(FolderNode filesystem, int maxDirectorySize, ref int total)
+        public static FolderNode FindDirectoryToDelete(FolderNode filesystem, int totalDiskSpace, int spaceNeeded)
         {
-            var currentNode = filesystem;
+            var currentSpaceUsed = filesystem.Size;
+            var currentFreeSpace = totalDiskSpace - currentSpaceUsed;
+            var minSizeOfFolderToDelete = spaceNeeded - currentFreeSpace;
+
+            // 1st candidate for deletion is the root folder
+            FolderNode result = filesystem;
+            FindDirectoryToDelete(filesystem, minSizeOfFolderToDelete, ref result);
+
+            return result;
+        }
+
+
+        private static void CalculateTotalSize(FolderNode currentNode, int maxDirectorySize, ref int total)
+        {
             foreach (var child in currentNode.Children)
             {
                 if (child.IsDirectory)
@@ -128,6 +141,21 @@ namespace Day7
 
                     if (child.Size <= maxDirectorySize)
                         total += child.Size;
+                }
+            }
+        }
+
+        private static void FindDirectoryToDelete(FolderNode currentNode, int minSizeOfFolderToDelete, ref FolderNode directoryToDelete) 
+        {
+            foreach (var child in currentNode.Children)
+            {
+                if (child.IsDirectory)
+                {
+                    FindDirectoryToDelete(child, minSizeOfFolderToDelete, ref directoryToDelete);
+
+                    if (child.Size < directoryToDelete.Size &&  // Is this directory smaller than the best candidate found so far?
+                        child.Size >= minSizeOfFolderToDelete)  // Is this directory big enough so that once it's deleted we'll have enough space?
+                        directoryToDelete = child;
                 }
             }
         }

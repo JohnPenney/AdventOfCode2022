@@ -29,31 +29,30 @@ namespace Day7
             result.Should().Be(1491614);
         }
 
-        /*
-        [DataRow("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 19)]
-        [DataRow("bvwbjplbgvbhsrlpgdmjqwftvncz", 23)]
-        [DataRow("nppdvjthqldpwncqszvftbrmjlhg", 23)]
-        [DataRow("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 29)]
-        [DataRow("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 26)]
-        [DataTestMethod]
-        public void Part2Example(string buffer, int expectedEndOfStartPacketMarker)
+        [TestMethod]
+        public void Part2Example()
         {
-            var result = MessageAnalyser.FindEndOfMessageMarker(buffer);
+            var buffer = ExampleTerminalOutput();
 
-            result.Should().Be(expectedEndOfStartPacketMarker);
+            var filesystem = FilesystemAnalyser.CreateFilesystem(buffer);
+            FilesystemAnalyser.SetFolderSizes(filesystem);
+            var nodeToDelete = FilesystemAnalyser.FindDirectoryToDelete(filesystem, totalDiskSpace: 70000000,  spaceNeeded: 30000000);
+
+            nodeToDelete.Size.Should().Be(24933642);
         }
 
         [TestMethod]
         public void Part2Solution()
         {
             var buffer = File.ReadAllLines("input.txt");
-            if (buffer.Length != 1) throw new NotSupportedException();
 
-            var result = MessageAnalyser.FindEndOfMessageMarker(buffer[0]);
+            var filesystem = FilesystemAnalyser.CreateFilesystem(buffer);
+            FilesystemAnalyser.SetFolderSizes(filesystem);
+            var nodeToDelete = FilesystemAnalyser.FindDirectoryToDelete(filesystem, totalDiskSpace: 70000000, spaceNeeded: 30000000);
 
-            result.Should().Be(2625);
+            nodeToDelete.Size.Should().Be(6400111);
         }
-        */
+        
         private string[] ExampleTerminalOutput()
         {
             var example = @"$ cd /
